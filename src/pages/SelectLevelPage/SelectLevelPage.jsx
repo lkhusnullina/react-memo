@@ -1,12 +1,13 @@
-// import { Link } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLevel } from "../../store/slices";
 import { Button } from "../../components/Button/Button";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 export function SelectLevelPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const level = useSelector(state => state.game.level);
   const easyMode = useSelector(state => state.game.easyMode);
 
@@ -55,14 +56,10 @@ export function SelectLevelPage() {
           />
           <h2 className={styles.heading}>Легкий режим(3 жизни)</h2>
         </div>
-        <Button className={styles.buttonStart}>Играть</Button>
+        <Button className={styles.buttonStart} onClick={() => navigate("/game")}>
+          Играть
+        </Button>
       </div>
     </div>
   );
-}
-
-{
-  /* <Link className={styles.levelLink} to="/game/9">
-              3
-            </Link> */
 }

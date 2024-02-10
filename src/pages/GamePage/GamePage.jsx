@@ -1,13 +1,12 @@
-import { useParams } from "react-router-dom";
-
 import { Cards } from "../../components/Cards/Cards";
+import { useSelector } from "react-redux";
 
 export function GamePage() {
-  const { pairsCount } = useParams();
+  const level = useSelector(state => state.game.level);
 
   return (
     <>
-      <Cards pairsCount={parseInt(pairsCount, 10)} previewSeconds={5}></Cards>
+      <Cards pairsCount={parseInt(level, 10)} previewSeconds={5}></Cards>
     </>
   );
 }

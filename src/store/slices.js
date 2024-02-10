@@ -11,7 +11,6 @@ const gameSlice = createSlice({
   reducers: {
     setLevel(state, action) {
       state.level = action.payload.level;
-      console.log(1);
     },
     setMode(state, action) {
       state.easyMode = action.payload.easyMode;
