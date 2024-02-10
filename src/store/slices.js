@@ -14,11 +14,7 @@ const gameSlice = createSlice({
       console.log(1);
     },
     setMode(state, action) {
-      // const mode = action.payload.mode;
-      // if (mode === state.mode) return;
-      // state.easyMode = mode;
-      // state.lives = state.easyMode ? 3 : 1;
-      // state.losed = false;
+      state.easyMode = action.payload.easyMode;
     },
     miss(state) {
       state.lives--;
