@@ -14,6 +14,7 @@ const gameSlice = createSlice({
     },
     setMode(state, action) {
       state.easyMode = action.payload.easyMode;
+      state.lives = state.easyMode ? 3 : 1;
     },
     miss(state) {
       state.lives--;
@@ -25,8 +26,13 @@ const gameSlice = createSlice({
       state.lives = state.easyMode ? 3 : 1;
       state.losed = false;
     },
+    clearStore(state) {
+      state.level = 3;
+      state.lives = 1;
+      state.easyMode = false;
+    },
   },
 });
 
-export const { setMode, miss, restart, setLevel } = gameSlice.actions;
+export const { setMode, miss, restart, setLevel, clearStore } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;

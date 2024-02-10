@@ -5,7 +5,9 @@ import styles from "./Cards.module.css";
 import { EndGameModal } from "../../components/EndGameModal/EndGameModal";
 import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { miss, clearStore } from "../../store/slices";
 
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
@@ -42,7 +44,10 @@ function getTimerValue(startDate, endDate) {
  * previewSeconds - сколько секунд пользователь будет видеть все карты открытыми до начала игры
  */
 export function Cards({ previewSeconds = 5 }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pairsCount = useSelector(state => state.game.level);
+  const lives = useSelector(state => state.game.lives);
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
   const [cards, setCards] = useState([]);
   // Текущий статус игры
@@ -174,6 +179,12 @@ export function Cards({ previewSeconds = 5 }) {
     };
   }, [gameStartDate, gameEndDate]);
 
+  const livesBlock = [];
+
+  for (let i = 0; i < lives; i++) {
+    livesBlock.push(<span key={i} className={styles.heart}></span>);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -222,6 +233,21 @@ export function Cards({ previewSeconds = 5 }) {
           />
         </div>
       ) : null}
+      <div className={styles.livesContainer}>
+        <div>
+          <span>Жизни: </span>
+          <div className={styles.lives}>{livesBlock}</div>
+          <button onClick={() => dispatch(miss())}>уд</button>
+        </div>
+        <Button
+          onClick={() => {
+            dispatch(clearStore());
+            navigate("/");
+          }}
+        >
+          Выйти
+        </Button>
+      </div>
     </div>
   );
 }
