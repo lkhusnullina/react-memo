@@ -47,4 +47,4 @@ https://skypro-web-developer.github.io/react-memo/
 
 
 ожидание 20 часов
-фактическое 2 ч
+фактическое 6 ч
