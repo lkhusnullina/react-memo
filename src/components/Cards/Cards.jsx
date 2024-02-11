@@ -99,8 +99,7 @@ export function Cards({ previewSeconds = 5 }) {
       return;
     }
     setCardIds([...cardIds, clickedCard.id]);
-    console.log(222);
-    console.log(cardIds);
+
     // Игровое поле после открытия кликнутой карты
     const nextCards = cards.map(card => {
       if (card.id !== clickedCard.id) {
@@ -131,8 +130,6 @@ export function Cards({ previewSeconds = 5 }) {
       const sameCards = openCards.filter(openCard => card.suit === openCard.suit && card.rank === openCard.rank);
 
       if (sameCards.length < 2) {
-        console.log(111);
-        console.log(cardIds);
         if (openCards.length % 2 === 0) setCardIds([]);
         return true;
       }
