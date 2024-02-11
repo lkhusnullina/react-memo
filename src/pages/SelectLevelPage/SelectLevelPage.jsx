@@ -49,12 +49,15 @@ export function SelectLevelPage() {
         </form>
         <div className={styles.mode}>
           <input
+            id="selectMode"
             className={styles.input}
             type="checkbox"
             value={easyMode}
             onClick={e => dispatch(setMode({ easyMode: e.target.value }))}
           />
-          <h2 className={styles.heading}>Легкий режим(3 жизни)</h2>
+          <label htmlFor="selectMode" className={styles.heading}>
+            Легкий режим(3 жизни)
+          </label>
         </div>
         <Button className={styles.buttonStart} onClick={() => navigate("/game")}>
           Играть

@@ -48,8 +48,12 @@ export function Cards({ previewSeconds = 5 }) {
   const navigate = useNavigate();
   const pairsCount = useSelector(state => state.game.level);
   const lives = useSelector(state => state.game.lives);
+  const losed = useSelector(state => state.game.losed);
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
   const [cards, setCards] = useState([]);
+
+  const [cardIds, setCardIds] = useState([]);
+
   // Текущий статус игры
   const [status, setStatus] = useState(STATUS_PREVIEW);
 
@@ -94,6 +98,9 @@ export function Cards({ previewSeconds = 5 }) {
     if (clickedCard.open) {
       return;
     }
+    setCardIds([...cardIds, clickedCard.id]);
+    console.log(222);
+    console.log(cardIds);
     // Игровое поле после открытия кликнутой карты
     const nextCards = cards.map(card => {
       if (card.id !== clickedCard.id) {
@@ -124,24 +131,46 @@ export function Cards({ previewSeconds = 5 }) {
       const sameCards = openCards.filter(openCard => card.suit === openCard.suit && card.rank === openCard.rank);
 
       if (sameCards.length < 2) {
+        console.log(111);
+        console.log(cardIds);
+        if (openCards.length % 2 === 0) setCardIds([]);
         return true;
       }
-
       return false;
     });
 
     const playerLost = openCardsWithoutPair.length >= 2;
-
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
+    if (!playerLost && openCardsWithoutPair.length % 2 === 0) {
+      setCardIds([]);
+    }
+
     if (playerLost) {
-      finishGame(STATUS_LOST);
-      return;
+      dispatch(miss());
+
+      const crds = cards.map(card => {
+        if (cardIds.includes(card.id)) {
+          return {
+            ...card,
+            open: false,
+          };
+        }
+
+        return card;
+      });
+
+      setTimeout(() => setCards(crds), 1000);
+      setCardIds([]);
     }
 
     // ... игра продолжается
   };
 
   const isGameEnded = status === STATUS_LOST || status === STATUS_WON;
+
+  useEffect(() => {
+    if (losed) finishGame(STATUS_LOST);
+  }, [losed]);
 
   // Игровой цикл
   useEffect(() => {
@@ -237,7 +266,6 @@ export function Cards({ previewSeconds = 5 }) {
         <div>
           <span>Жизни: </span>
           <div className={styles.lives}>{livesBlock}</div>
-          <button onClick={() => dispatch(miss())}>уд</button>
         </div>
         <Button
           onClick={() => {
