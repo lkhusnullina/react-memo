@@ -5,23 +5,27 @@ import deadImageUrl from "./images/dead.png";
 import celebrationImageUrl from "./images/celebration.png";
 import { restart } from "../../store/slices";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { postLeader } from "../../api";
 
+const getSafeString = str =>
+  str.trim().replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+
 export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, onClick }) {
-  const title = isWon ? "Вы победили!" : "Вы проиграли!";
-
-  const imgSrc = isWon ? celebrationImageUrl : deadImageUrl;
-
-  const imgAlt = isWon ? "celebration emodji" : "dead emodji";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const pairsCount = useSelector(state => state.game.level);
   const isLeader = pairsCount === 9 && isWon;
 
+  const title = isWon ? (isLeader ? "Вы попали на Лидерборд!" : "Вы победили!") : "Вы проиграли!";
+  const imgSrc = isWon ? celebrationImageUrl : deadImageUrl;
+  const imgAlt = isWon ? "celebration emodji" : "dead emodji";
+
   const [leaderName, setLeaderName] = useState("");
+
   const addLeader = () => {
-    postLeader({ name: leaderName, time: gameDurationMinutes * 60 + gameDurationSeconds });
+    postLeader({ name: getSafeString(leaderName), time: gameDurationMinutes * 60 + gameDurationSeconds });
   };
 
   return (
@@ -40,9 +44,10 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
           <Button
             onClick={() => {
               addLeader();
+              navigate("/");
             }}
           >
-            Отправить в лидерборд
+            Добавить
           </Button>
         </>
       )}
