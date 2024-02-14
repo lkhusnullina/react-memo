@@ -115,3 +115,11 @@
   border: none;
   cursor: pointer;
 }
+
+.leaderboardLink {
+  font-family: StratosSkyeng;
+  font-size: 18px;
+  color: #004980;
+  line-height: 32px;
+  font-weight: 400;
+}

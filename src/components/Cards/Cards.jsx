@@ -8,6 +8,7 @@ import { Card } from "../../components/Card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { miss, clearStore } from "../../store/slices";
+// import { postLeader } from "../../api";
 
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
@@ -49,6 +50,7 @@ export function Cards({ previewSeconds = 5 }) {
   const pairsCount = useSelector(state => state.game.level);
   const lives = useSelector(state => state.game.lives);
   const losed = useSelector(state => state.game.losed);
+  // const easyMode = useSelector(state => state.game.easyMode);
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
   const [cards, setCards] = useState([]);
 
@@ -118,6 +120,9 @@ export function Cards({ previewSeconds = 5 }) {
 
     // Победа - все карты на поле открыты
     if (isPlayerWon) {
+      // if (pairsCount === 3 && ) {
+      //   postLeader();
+      // }
       finishGame(STATUS_WON);
       return;
     }
