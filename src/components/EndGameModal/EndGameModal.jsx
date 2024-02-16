@@ -64,7 +64,14 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       >
         Начать сначала
       </Button>
-      <Link className={styles.leaderboardLink} to="/leaderboard">
+      <Link
+        className={styles.leaderboardLink}
+        to="/leaderboard"
+        onClick={() => {
+          onClick();
+          dispatch(restart());
+        }}
+      >
         Перейти к лидерборду
       </Link>
     </div>
