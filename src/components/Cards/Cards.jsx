@@ -49,7 +49,9 @@ export function Cards({ previewSeconds = 5 }) {
   const pairsCount = useSelector(state => state.game.level);
   const lives = useSelector(state => state.game.lives);
   const losed = useSelector(state => state.game.losed);
+  // const easyMode = useSelector(state => state.game.easyMode);
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
+  const [ind, setInd] = useState(0);
   const [cards, setCards] = useState([]);
 
   const [cardIds, setCardIds] = useState([]);
@@ -94,6 +96,9 @@ export function Cards({ previewSeconds = 5 }) {
    * - "Игра продолжается", если не случилось первых двух условий
    */
   const openCard = clickedCard => {
+    if (ind > 1) return;
+    setInd(ind + 1);
+    if (cardIds.length > 1) return;
     // Если карта уже открыта, то ничего не делаем
     if (clickedCard.open) {
       return;
@@ -130,7 +135,9 @@ export function Cards({ previewSeconds = 5 }) {
       const sameCards = openCards.filter(openCard => card.suit === openCard.suit && card.rank === openCard.rank);
 
       if (sameCards.length < 2) {
-        if (openCards.length % 2 === 0) setCardIds([]);
+        if (openCards.length % 2 === 0) {
+          // setCardIds([]);
+        }
         return true;
       }
       return false;
@@ -140,6 +147,7 @@ export function Cards({ previewSeconds = 5 }) {
     // "Игрок проиграл", т.к на поле есть две открытые карты без пары
     if (!playerLost && openCardsWithoutPair.length % 2 === 0) {
       setCardIds([]);
+      setInd(0);
     }
 
     if (playerLost) {
@@ -156,8 +164,11 @@ export function Cards({ previewSeconds = 5 }) {
         return card;
       });
 
-      setTimeout(() => setCards(crds), 1000);
-      setCardIds([]);
+      setTimeout(() => {
+        setCards(crds);
+        setInd(0);
+        setCardIds([]);
+      }, 1000);
     }
 
     // ... игра продолжается
