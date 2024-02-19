@@ -33,3 +33,54 @@
   width: 324px;
   text-align: left;
 }
+
+.achievements__block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+
+}
+
+.achivkaNotEasyMode,
+.achivkaYesEasyMode,
+.achivkaNotSuperPower,
+.achivkaYesSuperPower {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.achivkaNotEasyMode {
+  background-image: url(/public/images/achivka1.svg);
+}
+
+
+.achivkaYesEasyMode {
+  background-image: url(/public/images/achivka1_1.svg);
+}
+
+.achivkaNotSuperPower {
+  background-image: url(/public/images/achivka2.svg);
+}
+
+.achivkaYesSuperPower {
+  background-image: url(/public/images/achivka2_1.svg);
+}
+
+.achivkaYesEasyMode:hover::after {
+  z-index: 9999; 
+  content: url(/public/images/noeasymode.svg);
+  position: relative;
+  bottom: 90px;
+  left: 90px;
+}
+
+.achivkaYesSuperPower:hover::after {
+  z-index: 9999;
+  content: url(/public/images/nosuperpower.svg);
+  position: relative;
+  bottom: 90px;
+  left: 75px;
+}

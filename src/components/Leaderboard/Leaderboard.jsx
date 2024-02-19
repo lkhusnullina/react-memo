@@ -34,6 +34,7 @@ export function Leaderboard() {
       <div className={`${styles.leaderboard} ${styles.leaderboardTitle}`}>
         <p className={styles.item}>Позиция</p>
         <p className={styles.item_user}>Пользователь</p>
+        <p className={styles.item}>Достижения</p>
         <p className={styles.item}>Время</p>
       </div>
       <>
@@ -46,6 +47,11 @@ export function Leaderboard() {
               <div className={styles.leaderboard} key={index}>
                 <p className={styles.item}>{`# ${position}`}</p>
                 <p className={styles.item_user}>{leader.name}</p>
+                <div className={styles.achievements__block}>
+                  <div className={styles.achivkaYesEasyMode}></div>
+                  <div className={styles.achivkaYesSuperPower}></div>
+                </div>
+
                 <p className={styles.item}>{secondsToTimeString(leader.time)}</p>
               </div>
             );
