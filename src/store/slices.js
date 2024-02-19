@@ -7,6 +7,8 @@ const gameSlice = createSlice({
     lives: 1,
     easyMode: false,
     losed: false,
+    hintProzrenie: 1,
+    hintAlohomora: 1,
   },
   reducers: {
     setLevel(state, action) {
@@ -25,6 +27,12 @@ const gameSlice = createSlice({
     restart(state) {
       state.lives = state.easyMode ? 3 : 1;
       state.losed = false;
+    },
+    useProzrenie(state) {
+      state.hintProzrenie--;
+    },
+    useAlohomora(state) {
+      state.hintAlohomora--;
     },
     clearStore(state) {
       state.level = 3;

@@ -247,7 +247,9 @@ export function Cards({ previewSeconds = 5 }) {
         </div>
         {status === STATUS_IN_PROGRESS ? (
           <div className={styles.powers}>
-            <button className={styles.prozrenie} onClick={() => console.log(1)}></button>
+            <button className={styles.prozrenie} onClick={setTimeout(() => console.log("Привет"), 5000)}>
+              1
+            </button>
             <button className={styles.alohomora} onClick={() => console.log(2)}></button>
           </div>
         ) : null}
