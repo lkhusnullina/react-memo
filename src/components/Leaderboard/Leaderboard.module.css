@@ -65,7 +65,7 @@
   background-image: url(/public/images/achivka2_1.svg);
 }
 
-/* .achivkaYesEasyMode:hover::after {
+.achivkaNoEasyMode:hover::after {
   z-index: 9999; 
   content: url(/public/images/noeasymode.svg);
   position: relative;
@@ -73,10 +73,10 @@
   left: 90px;
 }
 
-.achivkaYesSuperPower:hover::after {
+.achivkaNoSuperPower:hover::after {
   z-index: 9999;
   content: url(/public/images/nosuperpower.svg);
   position: relative;
   bottom: 90px;
   left: 75px;
-} */
+}
