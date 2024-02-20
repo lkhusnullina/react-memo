@@ -19,7 +19,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const prozrenie = useSelector(state => state.game.hintProzrenie);
   const alohomora = useSelector(state => state.game.hintAlohomora);
   const easyMode = useSelector(state => state.game.easyMode);
-  const isLeader = pairsCount === 3 && isWon;
+  const isLeader = pairsCount === 9 && isWon;
 
   const title = isWon ? (isLeader ? "Вы попали на Лидерборд!" : "Вы победили!") : "Вы проиграли!";
   const imgSrc = isWon ? celebrationImageUrl : deadImageUrl;

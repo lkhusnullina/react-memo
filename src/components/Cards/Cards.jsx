@@ -66,6 +66,8 @@ export function Cards({ previewSeconds = 5 }) {
   // Дата конца игры
   const [gameEndDate, setGameEndDate] = useState(null);
 
+  const [timerIntervalId, setTimerIntervalId] = useState();
+
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
     seconds: 0,
@@ -213,6 +215,7 @@ export function Cards({ previewSeconds = 5 }) {
     const intervalId = setInterval(() => {
       setTimer(getTimerValue(gameStartDate, gameEndDate));
     }, 300);
+    setTimerIntervalId(intervalId);
     return () => {
       clearInterval(intervalId);
     };
@@ -225,6 +228,7 @@ export function Cards({ previewSeconds = 5 }) {
   }
 
   function handleProzrenie() {
+    clearInterval(timerIntervalId);
     dispatch(setProzrenie());
     const alhomoraState = alohomora;
     dispatch(setAlohomoraPause({ state: true }));
@@ -239,6 +243,7 @@ export function Cards({ previewSeconds = 5 }) {
     setTimeout(() => {
       setCards(temptCards);
       dispatch(setAlohomoraPause({ state: alhomoraState }));
+      setGameStartDate(new Date(gameStartDate.getTime() + 5000));
     }, 5000);
   }
 
