@@ -48,8 +48,17 @@ export function Leaderboard() {
                 <p className={styles.item}>{`# ${position}`}</p>
                 <p className={styles.item_user}>{leader.name}</p>
                 <div className={styles.achievements__block}>
-                  <div className={styles.achivkaYesEasyMode}></div>
-                  <div className={styles.achivkaYesSuperPower}></div>
+                  {leader.achievements && leader.achievements.includes(1) ? (
+                    <div className={`${styles.achivka_block} ${styles.achivkaNoEasyMode}`}></div>
+                  ) : (
+                    <div className={`${styles.achivka_block} ${styles.achivkaYesEasyMode}`}></div>
+                  )}
+                  {leader.achievements && leader.achievements.includes(2) ? (
+                    <div className={`${styles.achivka_block} ${styles.achivkaNoSuperPower}`}></div>
+                  ) : (
+                    <div className={`${styles.achivka_block} ${styles.achivkaYesSuperPower}`}></div>
+                  )}
+                  <div className={styles.achivka_block}></div>
                 </div>
 
                 <p className={styles.item}>{secondsToTimeString(leader.time)}</p>

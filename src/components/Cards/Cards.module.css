@@ -107,6 +107,10 @@
   gap: 15px;
 }
 
+.blockProzrenie, .blockAlohomora {
+  position: relative;
+}
+
 .prozrenie {
   display: block;
   width: 64px;
@@ -117,21 +121,15 @@
   background-image: url(/public/images/eye.svg);
   background-repeat: no-repeat;
   border: none;
+  cursor: pointer;
 }
 
-.prozrenie:hover::after{
-  position: relative;
-  content: url(/public/images/prozrenieText.svg);
-  top: 75px;
-  right: 80px;
-  z-index: 1000;
+.prozrenie:disabled {
+  opacity: .5;
 }
-
-/* .prozrenie::after + .cards {
-  background: #004980c0;
-} */
 
 .alohomora {
+  position: relative;
   display: block;
   width: 64px;
   height: 64px;
@@ -141,4 +139,48 @@
   background-image: url(/public/images/cards.svg);
   background-repeat: no-repeat;
   border: none;
+  cursor: pointer;
+}
+
+.alohomora:disabled {
+  opacity: .5;
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top:80px;
+  left: -90px;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 222px;
+  height: auto;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  line-height: 24px;
+  color: #004980;
+  background-color: #C2F5FF;
+}
+
+.popup_heading {
+  text-align: center;
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.popup_info {
+  display: block;
+  text-align: center;
+}
+
+.blockProzrenie:hover .popup {
+  display: block;
+}
+
+.blockAlohomora:hover .popup {
+  display: block;
 }

@@ -1,4 +1,4 @@
-const leaderHost = "https://wedev-api.sky.pro/api/leaderboard";
+const leaderHost = "https://wedev-api.sky.pro/api/v2/leaderboard";
 
 export function getAllLeaders() {
   return fetch(leaderHost, {
@@ -16,12 +16,13 @@ export function getAllLeaders() {
     });
 }
 
-export function postLeader({ name, time }) {
+export function postLeader({ name, time, achievements }) {
   return fetch(leaderHost, {
     method: "POST",
     body: JSON.stringify({
       name,
       time,
+      achievements,
     }),
   })
     .then(response => {

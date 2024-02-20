@@ -16,7 +16,10 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pairsCount = useSelector(state => state.game.level);
-  const isLeader = pairsCount === 9 && isWon;
+  const prozrenie = useSelector(state => state.game.hintProzrenie);
+  const alohomora = useSelector(state => state.game.hintAlohomora);
+  const easyMode = useSelector(state => state.game.easyMode);
+  const isLeader = pairsCount === 3 && isWon;
 
   const title = isWon ? (isLeader ? "Вы попали на Лидерборд!" : "Вы победили!") : "Вы проиграли!";
   const imgSrc = isWon ? celebrationImageUrl : deadImageUrl;
@@ -25,7 +28,20 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const [leaderName, setLeaderName] = useState("");
 
   const addLeader = () => {
-    postLeader({ name: getSafeString(leaderName), time: gameDurationMinutes * 60 + gameDurationSeconds });
+    const achi = [];
+    if (prozrenie && alohomora) {
+      achi.push(2);
+    } else if (easyMode) {
+      achi.push(1);
+    } else {
+      return achi;
+    }
+    console.log(achi);
+    postLeader({
+      name: getSafeString(leaderName),
+      time: gameDurationMinutes * 60 + gameDurationSeconds,
+      achievements: achi,
+    });
   };
 
   return (
