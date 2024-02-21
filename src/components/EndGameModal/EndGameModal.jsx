@@ -28,14 +28,14 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const [leaderName, setLeaderName] = useState("");
 
   const addLeader = () => {
-    const achi = [];
-    if (prozrenie && alohomora) {
+    let achi = [];
+    if (!prozrenie && !alohomora) {
       achi.push(2);
-    } else if (easyMode) {
-      achi.push(1);
-    } else {
-      return achi;
     }
+    if (!easyMode) {
+      achi.push(1);
+    }
+    console.log(achi);
     postLeader({
       name: getSafeString(leaderName),
       time: gameDurationMinutes * 60 + gameDurationSeconds,
