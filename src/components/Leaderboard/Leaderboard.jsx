@@ -54,9 +54,9 @@ export function Leaderboard() {
                     <div className={`${styles.achivka_block} ${styles.achivkaYesEasyMode}`}></div>
                   )}
                   {leader.achievements && leader.achievements.includes(2) ? (
-                    <div className={`${styles.achivka_block} ${styles.achivkaYesSuperPower}`}></div>
-                  ) : (
                     <div className={`${styles.achivka_block} ${styles.achivkaNoSuperPower}`}></div>
+                  ) : (
+                    <div className={`${styles.achivka_block} ${styles.achivkaYesSuperPower}`}></div>
                   )}
                   <div className={styles.achivka_block}></div>
                 </div>

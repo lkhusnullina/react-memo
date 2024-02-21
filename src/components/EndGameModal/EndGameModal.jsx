@@ -35,7 +35,6 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
     if (!easyMode) {
       achi.push(1);
     }
-    console.log(achi);
     postLeader({
       name: getSafeString(leaderName),
       time: gameDurationMinutes * 60 + gameDurationSeconds,
