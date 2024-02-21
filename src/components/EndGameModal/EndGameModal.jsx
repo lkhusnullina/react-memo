@@ -59,6 +59,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
             onClick={() => {
               addLeader();
               navigate("/");
+              dispatch(restart());
             }}
           >
             Добавить
