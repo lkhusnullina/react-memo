@@ -7,7 +7,7 @@ import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { miss, clearStore } from "../../store/slices";
+import { miss, clearStore, setProzrenie, setAlohomora, restart, setAlohomoraPause } from "../../store/slices";
 
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
@@ -49,7 +49,9 @@ export function Cards({ previewSeconds = 5 }) {
   const pairsCount = useSelector(state => state.game.level);
   const lives = useSelector(state => state.game.lives);
   const losed = useSelector(state => state.game.losed);
-  // const easyMode = useSelector(state => state.game.easyMode);
+  const prozrenie = useSelector(state => state.game.hintProzrenie);
+  const alohomora = useSelector(state => state.game.hintAlohomora);
+
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
   const [ind, setInd] = useState(0);
   const [cards, setCards] = useState([]);
@@ -63,6 +65,8 @@ export function Cards({ previewSeconds = 5 }) {
   const [gameStartDate, setGameStartDate] = useState(null);
   // Дата конца игры
   const [gameEndDate, setGameEndDate] = useState(null);
+
+  const [timerIntervalId, setTimerIntervalId] = useState();
 
   // Стейт для таймера, высчитывается в setInteval на основе gameStartDate и gameEndDate
   const [timer, setTimer] = useState({
@@ -211,6 +215,7 @@ export function Cards({ previewSeconds = 5 }) {
     const intervalId = setInterval(() => {
       setTimer(getTimerValue(gameStartDate, gameEndDate));
     }, 300);
+    setTimerIntervalId(intervalId);
     return () => {
       clearInterval(intervalId);
     };
@@ -220,6 +225,35 @@ export function Cards({ previewSeconds = 5 }) {
 
   for (let i = 0; i < lives; i++) {
     livesBlock.push(<span key={i} className={styles.heart}></span>);
+  }
+
+  function handleProzrenie() {
+    clearInterval(timerIntervalId);
+    dispatch(setProzrenie());
+    const alhomoraState = alohomora;
+    dispatch(setAlohomoraPause({ state: true }));
+    const temptCards = [...cards];
+    const flippedCards = temptCards.map(card => {
+      return {
+        ...card,
+        open: true,
+      };
+    });
+    setCards(flippedCards);
+    setTimeout(() => {
+      setCards(temptCards);
+      dispatch(setAlohomoraPause({ state: alhomoraState }));
+      setGameStartDate(new Date(gameStartDate.getTime() + 5000));
+    }, 5000);
+  }
+
+  function handleAlohomora() {
+    dispatch(setAlohomora());
+    const firstCard = cards.find(card => card.open === false);
+    const newCards = cards.map(card => {
+      return card.suit === firstCard.suit && card.rank === firstCard.rank ? { ...card, open: true } : card;
+    });
+    setCards(newCards);
   }
 
   return (
@@ -245,7 +279,36 @@ export function Cards({ previewSeconds = 5 }) {
             </>
           )}
         </div>
-        {status === STATUS_IN_PROGRESS ? <Button onClick={resetGame}>Начать заново</Button> : null}
+        {status === STATUS_IN_PROGRESS ? (
+          <div className={styles.powers}>
+            <div className={styles.blockProzrenie}>
+              <button className={styles.prozrenie} onClick={handleProzrenie} disabled={prozrenie}></button>
+              <div className={styles.popup}>
+                <span className={styles.popup_heading}>Прозрение</span>
+                <span className={styles.popup_info}>
+                  На 5 секунд показываются все карты. Таймер длительности игры на это время останавливается.
+                </span>
+              </div>
+            </div>
+            <div className={styles.blockAlohomora}>
+              <button className={styles.alohomora} onClick={handleAlohomora} disabled={alohomora}></button>
+              <div className={styles.popup}>
+                <span className={styles.popup_heading}>Алохомора</span>
+                <span className={styles.popup_info}>Открывается случайная пара карт.</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+        {status === STATUS_IN_PROGRESS ? (
+          <Button
+            onClick={() => {
+              dispatch(restart());
+              resetGame();
+            }}
+          >
+            Начать заново
+          </Button>
+        ) : null}
       </div>
 
       <div className={styles.cards}>

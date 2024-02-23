@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import styles from "./LeaderboardPage.module.css";
 import { Leaderboard } from "../../components/Leaderboard/Leaderboard";
-import { restart } from "../../store/slices";
+import { clearStore } from "../../store/slices";
 import { useDispatch } from "react-redux";
 
 export function LeaderboardPage() {
@@ -16,7 +16,8 @@ export function LeaderboardPage() {
         <Button
           children={"Начать игру"}
           onClick={() => {
-            dispatch(restart());
+            console.log(1);
+            dispatch(clearStore());
             navigate("/");
           }}
         />

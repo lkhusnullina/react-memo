@@ -16,6 +16,9 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pairsCount = useSelector(state => state.game.level);
+  const prozrenie = useSelector(state => state.game.hintProzrenie);
+  const alohomora = useSelector(state => state.game.hintAlohomora);
+  const easyMode = useSelector(state => state.game.easyMode);
   const isLeader = pairsCount === 9 && isWon;
 
   const title = isWon ? (isLeader ? "Вы попали на Лидерборд!" : "Вы победили!") : "Вы проиграли!";
@@ -25,7 +28,18 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const [leaderName, setLeaderName] = useState("");
 
   const addLeader = () => {
-    postLeader({ name: getSafeString(leaderName), time: gameDurationMinutes * 60 + gameDurationSeconds });
+    let achi = [];
+    if (!prozrenie && !alohomora) {
+      achi.push(2);
+    }
+    if (!easyMode) {
+      achi.push(1);
+    }
+    postLeader({
+      name: getSafeString(leaderName),
+      time: gameDurationMinutes * 60 + gameDurationSeconds,
+      achievements: achi,
+    });
   };
 
   return (
@@ -45,6 +59,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
             onClick={() => {
               addLeader();
               navigate("/");
+              dispatch(restart());
             }}
           >
             Добавить
